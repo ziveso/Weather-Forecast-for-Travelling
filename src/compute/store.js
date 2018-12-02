@@ -19,57 +19,48 @@ export default class Store {
       destinationregion: this.destinationregion.get(),
       departing: this.departing.get()
     });
-    this.temperature.set(temperature)
-    let result = "";
+    this.temperature.set(temperature);
+    let result = [];
     if (rainfall > 50 || humidity > 80) {
-      result += "rain is ‘likely’";
+      result.push("Rainy");
     }
     if (temperature < 15) {
-      result += "weather is ‘cold’";
+      result.push("Cold Weather");
     }
     if (wind_velocity > 50) {
-      result += "wind is ‘strong’";
+      result.push("Windy");
     }
     if (temperature > 30) {
-      result += "weather is ‘hot’";
+      result.push("Hot Weather");
     }
-    if (result === "") {
-      result += "weather is good";
+    if (result.length === 0) {
+      result.push("Perfect Timing !");
     }
     return result;
   });
 
   suggest = computed(() => {
     const status = this.status.get();
-    let result = "";
-    if (status.includes("rain is ‘likely’")) {
-      result += "equiment recommendation is ‘umbrella or raincoat’.";
+    let result = [];
+    if (status.includes("Rainy")) {
+      result.push("Equipment recommendation is umbrella or raincoat.\n");
+    }
+    if (status.includes("Cold Weather") && status.includes("Windy")) {
+      result.push("Equipment recommendation is jacket.\n");
+    }
+    if (status.includes("Hot Weather")) {
+      result.push("Equipment recommendation is sun cream. \n");
     }
     if (
-      status.includes("weather is ‘cold’") &&
-      status.includes("wind is ‘moderate’")
-    ) {
-      result += "equiment recommendation is ‘jacket’.";
-    }
-    if (status.includes("weather is ‘hot’")) {
-      result += "equiment recommendation is ‘sun cream’. ";
-    }
-    if (
-      status.includes("rain is ‘likely’") &&
-      moment.diff(moment(this.departing.get()), "days") !== 0
+      status.includes("Rainy") &&
+      moment().diff(moment(this.departing.get()), "days") !== 0
     ) {
     }
-    if (
-      status.includes("rain is ‘likely’") &&
-      status.includes("wind is ‘moderate’")
-    ) {
-      result += "not recommended transportation is ‘metro’";
+    if (status.includes("Rain y") && status.includes("Windy")) {
+      result.push("Not recommended transportation is metro\n");
     }
-    if (
-      status.includes("rain is ‘likely’") &&
-      status.includes("wind is ‘strong’")
-    ) {
-      result += "not recommended transportation is ‘metro and boat’.";
+    if (status.includes("Rainy") && status.includes("Windy")) {
+      result.push("Not recommended transportation is metro and boat.\n");
     }
     return result;
   });

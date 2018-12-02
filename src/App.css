@@ -11,3 +11,13 @@ footer {
   width: 100%;
   padding: 10px;
 }
+
+.App {
+  white-space: pre-wrap;
+}
+
+.image img {
+  width: 200px;
+  height: 100%;
+  border: 1px solid black;
+}
